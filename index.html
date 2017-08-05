@@ -8,16 +8,16 @@
 	<script type = "text/javascript" src = "./js/utf8.js"></script>
 	<script type = "text/javascript" src = ".js/web3.min.js></script>
 	<script>
-	var url = "http://10.4.107.212:8545"
+	var url = "http://127.0.0.1:8545"
 	var user_name;
 	var web3 = new Web3();
 	var provider = new web3.providers.HttpProvider(url)
 	we3.setProvider(provider);
 	web3.eth.defaultAccount = web3.eth.accounts[0];
 
-	var ABI = [{"constant":false, "inputs":[],"name":"countUp","outputs":[], "type":"function"},{"constant":true, "inputs":[],"name":"getCounterName", "outputs":[{"name":"name", "type":"bytes32"}],"type":"function"},{"constant":true,"inputs":[],"name":"getNunberOfCounter","outputs":[{"name":"number","type":"uint32"}],"type":"function"},{"uts":[{"name":"name","type":"bytes32"}],"type":"constructor"}];
-	var masterABI = [{"constant":true,"inputs":[],"name":"getCounterAddressList","outputs":[{"name":"counterAddressList","type":"address[]"}], "type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addCounter","outputs"[],"type":"function"}];
-	var masster = web3.eth.contract(masterABI).at();
+	var ABI = [{"constant":false,"inputs":[],"name":"countUp","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getCounterName","outputs":[{"name":"name","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfCounter","outputs":[{"name":"number","type":"uint32"}],"payable":false,"type":"function"},{"inputs":[{"name":"name","type":"bytes32"}],"payable":false,"type":"constructor"}];
+	var masterABI = [{"constant":true,"inputs":[],"name":"getCounterAddressList","outputs":[{"name":"counterAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addCounter","outputs":[],"payable":false,"type":"function"}];
+	var masster = web3.eth.contract(masterABI).at(0xccf608d2f91e4bff5404ee2519e85d4e381e29b6);
 	//여기 넣어야함
 	var CounterAddressList = master.getCounterAddressList();
 	function login(){
@@ -106,7 +106,7 @@
 <body>
 	<p>
 	//여기 넣어야함
-	사용자명:&nbsp;<input type = "text" id = "userName" value = " ">&nbsp;
+	사용자명:&nbsp;<input type = "text" id = "userName" value = "0x761e74ffdea1319fda970da68c7e945c66008eaa">&nbsp;
 	패스워드:&nbsp;<input type = "text" id = "password" value = "testuser2">&nbsp;
 	<input type = "button" value = "login" onclick = "login();" />
 	</p>
@@ -123,4 +123,5 @@
 	<input type = "button" value = "refresh" onclick = "refresh();"/>
 </body>
 </html>
+
 
