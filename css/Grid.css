@@ -1,0 +1,43 @@
+html {
+    height: 100%;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+}
+
+ ::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll {
+    position: fixed;
+    top: 70px;
+    right: 250px;
+    z-index: 9;
+}
+
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    background-color: lightgrey;
+    padding: 6px;
+}
+
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.bdr {
+    border: 1px solid red;
+}
