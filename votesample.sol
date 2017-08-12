@@ -1,11 +1,27 @@
 pragma solidity ^0.4.11;
 
 /// @title Voting with delegation.
+contract BallotMaster{
+    mapping(address => Ballot) private ballots;
+    address[] private addressList;
+    
+    function addBallot(bytes32 name)
+    {
+        Ballot ballot = new Ballot(name);
+        addressList.push(address(ballot));
+        ballots[address(ballot)] = ballot;
+    }
+    function getBallotAddressList() constant returns
+    (address[] ballotAddressList){
+        ballotAddressList = addressList;
+    }
+}
 
 contract Ballot {
     // This declares a new complex type which will
     //be used for variables later.
     // It will represent a single voter.
+    bytes32 BallotName;
     struct Voter {
         uint weight; // weight is accumulated by delegation
         bool voted;  // if true, that person already voted
@@ -25,32 +41,16 @@ contract Ballot {
     // stores a `Voter` struct for each possible address.
     mapping(address => Voter) public voters;
     
-    //mapping(address => Voter) public ballot;
-    address[] private addressList;
-    
     // A dynamically-sized array of `Proposal` structs.
     Proposal[] public proposals;
 
     /// Create a new ballot to choose one of `proposalNames`.
-    function Ballot(bytes32[] proposalNames) {
+    function Ballot(bytes32 Ballotname) {
+        BallotName = Ballotname;
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
-
-        // For each of the provided proposal names,
-        // create a new proposal object and add it
-        // to the end of the array.
-        /*
-        for (uint i = 0; i < proposalNames.length; i++) {
-            // `Proposal({...})` creates a temporary
-            // Proposal object and `proposals.push(...)`
-            // appends it to the end of `proposals`.
-            proposals.push(Proposal({
-                name: proposalNames[i],
-                voteCount: 0
-            }));
-        }
-        */
     }
+   
     function addProposal(bytes32 Name){
         proposals.push(Proposal({
                 name: Name,
@@ -124,10 +124,18 @@ contract Ballot {
         // changes.
         proposals[proposal].voteCount += sender.weight;
     }
-
-    
+    /*
+    function getProposalAddressList() constant returns
+    (address[] proposalAddressList){
+        proposalAddressList = proposals;
+    }
+    */
     /// @dev Computes the winning proposal taking all
     /// previous votes into account.
+    function getProposal() constant returns(Proposal[] proprsals)
+    {
+        
+    }
     function winningProposal() constant
             returns (uint winningProposal)
     {
