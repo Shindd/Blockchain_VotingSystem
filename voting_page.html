@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>BVote</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/et-line-font.css">
+    <link rel="stylesheet" href="css/nivo-lightbox.css">
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            text-align: center;
+            background: black;
+            font-family: 'Raleway', sans-serif;
+            font-size: 100%;
+            color: white;
+        }
+        
+        input {
+            color: black;
+        }
+        
+        select {
+            color: black;
+        }
+        
+        button {
+            width: 100px;
+            height: 50px;
+            background-color: #7AC5CD;
+            table-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 0;
+        }
+        
+        .table1 {
+            size: 90%;
+            border-width: 3px;
+            border-color: white;
+        }
+        
+        .table2 {}
+        
+        td,
+        th {
+            text-align: center;
+            background-color: #000000;
+        }
+    </style>
+
+
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+    <section class="preloader">
+
+        <div class="sk-rotating-plane"></div>
+
+    </section>
+
+    <section class="navbar navbar-fixed-top custom-navbar" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+			</button>
+                <a href="#home" class="smoothScroll navbar-brand">BVote</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#login" class="smoothScroll">LOG-IN</a></li>
+                    <li><a href="#temp" class="smoothScroll">PRESENT-CONDITION</a></li>
+                    <li><a href="#" class="smoothScroll">/</a></li>
+                    <li><a href="#voting_sys" class="smoothScroll">VOTING SYSTEM</a></li>
+                    <li><a href="#contact" class="smoothScroll">CONTACT US</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <br><br><br>
+    <center>
+        <table border=3px bordercolor="white">
+            <tr>
+                <td>Title : test <br><br>
+                    <table border=3px bordercolor="white" width="100" height="150">
+
+                        <body bottommargin="100">
+                            <tr>
+                                <td>1</td>
+                                <td>SSONG</td>
+                                <td><input type="checkbox" name="checkbox1" onclick="OnlyOneCheck(this)" /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Mr.Shin</td>
+                                <td><input type="checkbox" name="checkbox1" onclick="OnlyOneCheck(this)" /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Mr.Lee</td>
+                                <td><input type="checkbox" name="checkbox1" onclick="OnlyOneCheck(this)" /></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Ms.Kang</td>
+                                <td><input type="checkbox" name="checkbox1" onclick="OnlyOneCheck(this)" /></td>
+                            </tr>
+                        </body>
+                    </table><br>
+                    <input type="submit" name="votingSubmit" onclick="return submitCheck(this);" />
+                </td>
+        </table>
+
+        <!-- Javascript 
+================================================== -->
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/smoothscroll.js"></script>
+        <script src="js/nivo-lightbox.min.js"></script>
+        <script src="js/jquery.easing-1.3.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.parallax.js"></script>
+        <script src="js/wow.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script src="js/checkbox.js"></script>
+</body>
+
+</html>
