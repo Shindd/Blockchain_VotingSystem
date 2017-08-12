@@ -124,18 +124,31 @@ contract Ballot {
         // changes.
         proposals[proposal].voteCount += sender.weight;
     }
-    /*
-    function getProposalAddressList() constant returns
-    (address[] proposalAddressList){
-        proposalAddressList = proposals;
-    }
-    */
+   
     /// @dev Computes the winning proposal taking all
     /// previous votes into account.
-    function getProposal() constant returns(Proposal[] proprsals)
-    {
+
+
+  function getProposalNameList() returns
+    (bytes32[] proposalNameList){
+        
+        for (uint p = 0; p < proposals.length; p++) {
+            proposalNameList[p] = proposals[p].name;
+        }
         
     }
+     function getProposalCountList() returns
+    (uint[] proposalCountList){
+        
+        for (uint p = 0; p < proposals.length; p++) {
+            proposalCountList[p] = proposals[p].voteCount;
+        }
+        
+    }	
+
+
+
+
     function winningProposal() constant
             returns (uint winningProposal)
     {
