@@ -1,55 +1,152 @@
 <!DOCTYPE html>
+<html lang="ko">
 
-<html>
-	<head>
-		<meta charset="utf-8">
-		<!--
-		The MIT License (MIT)
+<head>
+<meta charset="UTF-8"/>
+<title>COUNTER</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="./home/lth/다운로드/javascript/js/bignumber.min.js"></script>
+<script type="text/javascript" src="./home/lth/다운로드/javascript/js/crypto-js.js"></script>
+<script type="text/javascript" src="./home/lth/다운로드/javascript/js/utf8.js"></script>
+<script type="text/javascript" src="./home/lth/다운로드/javascript/js/web3.min.js"></script>
 
-		Copyright (c) 2014, 2015, the individual contributors
+<script>
+document.write("@@@@@@@@21");
+var url = "http://127.0.0.1:8545"
+var user_name;
+document.write('@@@@@@@@22');
+var web3 = new Web3();
+document.write('@@@@@@@@23');
+var provider = new web3.providers.HttpProvider(url)
+		web3.setProvider(provider);
+		web3.eth.defaultAccount = web3.eth.accounts[0];
 
-		Permission is hereby granted, free of charge, to any person obtaining a copy
-		of this software and associated documentation files (the "Software"), to deal
-		in the Software without restriction, including without limitation the rights
-		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-		copies of the Software, and to permit persons to whom the Software is
-		furnished to do so, subject to the following conditions:
+		var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}]
 
-		The above copyright notice and this permission notice shall be included in
-		all copies or substantial portions of the Software.
+		var masterABI = [{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addCounter","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"}];
+		var master = web3.eth.contract(masterABI).at("0x02c4739a9088e0a043cc8e7262aa5fa93b98af96");
 
-		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-		THE SOFTWARE.
-		-->
-		<meta http-equiv="X-UA-Compatible" content="chrome=1">
-		<title>Remix - Solidity IDE</title>
-		<link rel="stylesheet" href="assets/css/styles.css">
-		<link rel="stylesheet" href="assets/css/pygment_trac.css">
-		<link rel="stylesheet" href="assets/css/universal-dapp.css">
-		<link rel="stylesheet" href="assets/css/browser-solidity.css">
-		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-		<link rel="icon" type="x-icon" href="icon.png">
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	</head>
-	<body>
-		<script src="build/app.js"></script>
-		
-		<div id="modaldialog" class="modal">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h2></h2>
-				</div>
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-					<span id="modal-footer-ok">OK</span><span id="modal-footer-cancel">Cancel</span>
-				</div>
-			</div>
-		</div>
-	</body>
+		var BallotAddressList = master.getBallotAddressList();
+
+		function login() {
+				user_name = $("#userName").val();
+				var password = $("#password").val();
+				var JSONdata = createJSONdata("personal_unlockAccount", [user_name, password, 30]);
+				executeJsonRpc(url, JSONdata, function success(data) {
+								if (data.error == null) {
+								document.write("@@@@@@@@25");
+								console.log("login success!");
+								}
+								else {
+								document.write("@@@@@@@@26");
+								console.log("login error");
+								}
+
+								init();
+								}, function error(data) {
+								document.write("@@@@@@@@27");
+								console.log("login error");
+								});
+
+		}
+
+function init() {
+		web3.eth.defaultAccount = user_name;
+		var table = document.getElementById('list');
+		var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+		var temp = Ballot.getArray();
+		document.write('@@@@@@@@21' + <br />);
+		for (var j = 0; j < Ballot.proposals.length; j++) {
+				var row = table.insertRow();
+				var td = row.insertCell(0);
+				var radioButton1 = document.createElement('input');
+				radioButton1.type = 'radio';
+				radioButton1.name = 'Ballotlist';
+				radioButton1.value = Ballot.proposals[j];
+				td.appendChild(radioButton1);
+				td = row.insertCell(1);
+				td.innerHTML = web3.toAscii(temp[j]);
+		}
+		document.write('@@@@@@@@@@@@32' + <br />);
+}
+
+function refresh() {
+		web3.eth.defaultAccount = user_name;
+		var table = document.getElementById('list');
+		for (var i = BallotAddressList.length; i > 0; i--) {
+				table.deleteRow(i);
+		}
+		init();
+}
+function countUp() {
+   web3.eth.defaultAccount = user_name;
+   var targetAddress;
+   var CounterList = document.getElementsByName("CounterAddress");
+   for (i = 0; i < CounterList.length; i++) {
+   if (CounterList[i].checked) {
+   targetAddress = CounterList[i].value;
+   }
+   }
+   var Counter = web3.eth.contract(ABI).at(targetAddress);
+   Counter.countUp();
+}
+
+
+function createJSONdata(method, params) {
+		var JSONdata = {
+				"jsonrpc": "2.0",
+				"method": method,
+				"params": params
+		};
+		return JSONdata;
+}
+
+function executeJsonRpc(url_exec, JSONdata, success, error) {
+		$.ajax({
+type: 'post',
+url: url_exec,
+data: JSON.stringify(JSONdata),
+contentType: 'application/JSON',
+dataType: 'JSON',
+scriptCharset: 'utf-8',
+success: function(data) {
+success(data);
+},
+error: function(data) {
+error(data);
+}
+});
+}
+</script>
+
+</head>
+
+<body>
+
+<p>
+사용자명:&nbsp;<input type="text" id="userName" value="0x249cc36a90d7b4f3819771caac532a61dd6429d5">&nbsp; 패스워드:&nbsp;
+<input type="text" id="password" value="testuser2">&nbsp;
+<input type="button" value="login" onclick="login();" />
+
+
+</p>
+<table id="list" border="1">
+<tr>
+<th></th>
+<th>name</th>
+<th>number of counter</th>
+</tr>
+</table>
+<br />
+<input type="button" value="countUp" onclick="countUp();" />
+<br />
+<input type="button" value="refresh" onclick="refresh();" />
+
+
+</body>
+
 </html>
+
+
+
+
