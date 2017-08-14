@@ -1,154 +1,167 @@
 <!DOCTYPE html>
-<html lang = "ko">
-<head><meta charset = "UTF-8">
-	<title>BALLOT</title>
-	<script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<script type = "text/javascript" src = "/home/lth/다운로드/javascript/js/bignumber.min.js"></script>
-	<script type = "text/javascript" src = "/home/lth/다운로드/javascript/js/crypto-js.js"></script>
-	<script type = "text/javascript" src = "/home/lth/다운로드/javascript/js/utf8.js"></script>
-	<script type = "text/javascript" src = "/home/lth/다운로드/javascript/js/web3.min.js"></script>
+<html lang="ko">
 
-	<script>
-	var url = "http://127.0.0.1:8545"
-	var user_name;
-	var web3 = new Web3();
-	var provider = new web3.providers.HttpProvider(url)
-	web3.setProvider(provider);
-	web3.eth.defaultAccount = web3.eth.accounts[0];
+<head>
+    <meta charset="UTF-8">
+    <title>BALLOT</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/bignumber.min.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/crypto-js.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/utf8.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/web3.min.js"></script>
 
-document.write('@@@@@@1' + '<br />');
-	var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+    <script>
+        var url = "http://127.0.0.1:8545"
+        var user_name;
+        var web3 = new Web3();
+        var provider = new web3.providers.HttpProvider(url);
+        web3.setProvider(provider);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
 
-document.write('@@@@@@2' + '<br />');
-	var masterABI = [{"constant":true,"inputs":[],"name":"getCounterAddressList","outputs":[{"name":"counterAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addCounter","outputs":[],"payable":false,"type":"function"}];
-	document.write('@@@@@@3' + '<br />');
-	var master = web3.eth.contract(masterABI).at("0x692a70d2e424a56d2c6c27aa97d1a86395877b3a");
+        document.write('@@@@@@1' + '<br />');
+        var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        
+        document.write('@@@@@@2' + '<br />');
+        var masterABI = [{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getBallotrAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"}];
+        
+        document.write('@@@@@@3' + '<br />');
+        var master = web3.eth.contract(masterABI).at("0x7ec4349539486685c31f630d51a2cd836dbe1a2b");
+		var A = master.addBallot("name");
+        var BallotAddressList = master.getBallotrAddressList();
+		document.write(A + '<br />');
+		document.write(BallotAddressList.length + '<br />');
+		document.write('@@@@@@4' + '<br />');
 
-document.write('@@@@@@4' + '<br />');	
-var CounterAddressList = master.getCounterAddressList();
+        document.write('@@@@@@5' + '<br />');
+		
 
-document.write('@@@@@@5' + '<br />');
+        function login() {
+            user_name = $("#userName").val();
+            var password = $("#password").val();
+            var JSONdata = createJSONdata("personal_unlockAccount", [user_name, password, 30]);
+            executeJsonRpc(url, JSONdata, function success(data) {
+                if (data.error == null) {
+					alert("success");
+                    console.log("login success!");
+                }
+                else {
+					alert("error");
+                    console.log("login error");
+                }
 
-	
-	function login(){
-	user_name = $("#userName").val();
-	var password = $("#password").val();
-	var JSONdata = createJSONdata("personal_unlockAccount", [user_name, password, 30]);
-	executeJsonRpc(url, JSONdata, function success(data){
-	
+                init();
+            }, function error(data) {
+                console.log("login error");
+            });
 
-	if(data.error == null){
-		console.log("login success!");
-	}
-	else{
-		console.log("login error");
-	}
+        }
 
-	init();
-	}, function error(data){
-		console.log("login error");
-	});
+        function init() {
+            web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
+            var table = document.getElementById('list');
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            Ballot.addProposal("Lee");
+            Ballot.addProposal("Tae");
+            Ballot.addProposal("Hyun");
+            alert("Success2");
+            var proposalList = Ballot.getArray();
+            alert(proposalList[0]);
+            alert(proposalList[1]);
+            alert(proposalList[2]);
+            for (var i = 0; i < proposalList.length; i++) {
+                var row = table.insertRow();
+                var td = row.insertCell(0);
+                var radioButton1 = document.createElement('input');
+                radioButton1.type = 'radio';
+                radioButton1.name = 'ProposalList';
+                radioButton1.value = i;
+                td.appendChild(radioButton1);
+                
+				td = row.insertCell(1);
+                td.innerHTML = web3.toAscii(proposalList[0]);
+               	
+				td = row.insertCell(2);
+                td.innerHTML = web3.toAscii(proposalList[1]);
+				
+				td = row.insertCell(3);
+				td.innerHTML = web3.toAscii(proposalList[2]);
+            }
+        }
 
-	}
+        function refresh() {
+            web3.eth.defaultAccount = user_name;
+			var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+			var proposals = Ballot.getArray();
+            var table = document.getElementById('list');
+            for (var i = proposals.length; i > 0; i--) {
+                table.deleteRow(i);
+            }
+            init();
+        }
 
-	function init(){
-	web3.eth.defaultAccount = user_name;
-	var table = document.getElementById('list');
-	
-	for(var i = 0; i < CounterAddressList.length; i++){
-		var Counter = web3.eth.contract(ABI).at(CounterAddressList[i]);
-		var row = table.insertRow();
-		var td = row.insertCell(0);
-		var radioButton1 = document.createElement('input');
-		radioButton1.type = 'radio';
-		radioButton1.name = 'CounterAddress';
-		radioButton1.value = CounterAddressList[i];
-		td.appendChild(radioButton1);
-		td = row.insertCell(1);
-		td.innerHTML = web3.toAscii(Counter.getCounterName());
-		td = row.insertCell(2);
-		td.innerHTML = Counter.getNumberOfCounter();
-	}
-	}
-	function refresh(){
-	web3.eth.defaultAccount = user_name;
-	var table = document.getElementById('list');
-	for(var i = CounterAddressList.length; i>0;i--){
-	table.deleteRow(i);
-	}
-	init();
-	}
+        function countUp() {
+            web3.eth.defaultAccount = user_name;
+			var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            var proposalList = document.getElementsByName('ProposalList');
+            for (i = 0; i < proposalList.length; i++) {
+                if (proposalList[i].checked) {
+					Ballot.vote(proposalList[i].value);
+                }
+            }
+        }
 
-	function countUp(){
-	web3.eth.defaultAccount = user_name;
-	var targetAddress;
-	var CounterList = document.getElementsByName("CounterAddress");
-	for(i = 0; i < CounterList.length; i++){
-		if(CounterList[i].checked){
-			targetAddress = CounterList[i].value;
-		}
-	}
-	var Counter = web3.eth.contract(ABI).at(targetAddress);
-	Counter.countUp();
-	}
-	
 
-	function createJSONdata(method, params){
-		var JSONdata = {
-			"jsonrpc" : "2.0",
-			"method" : method,
-			"params" : params
-			};
-		return JSONdata;
-	}
+        function createJSONdata(method, params) {
+            var JSONdata = {
+                "jsonrpc": "2.0",
+                "method": method,
+                "params": params
+            };
+            return JSONdata;
+        }
 
-	function executeJsonRpc(url_exec, JSONdata, success, error){
-		$.ajax({
-		type : 'post',
-		url : url_exec,
-		data : JSON.stringify(JSONdata),
-		contentType : 'application/JSON',
-		dataType : 'JSON',
-		scriptCharset : 'utf-8',
-		success : function(data){
-			success(data);
-		},
-		error : function(data){
-			error(data);
-		}
-	});
-	}
-
-	</script>
+        function executeJsonRpc(url_exec, JSONdata, success, error) {
+            $.ajax({
+                type: 'post',
+                url: url_exec,
+                data: JSON.stringify(JSONdata),
+                contentType: 'application/JSON',
+                dataType: 'JSON',
+                scriptCharset: 'utf-8',
+                success: function(data) {
+                    success(data);
+                },
+                error: function(data) {
+                    error(data);
+                }
+            });
+        }
+    </script>
 
 </head>
 
 <body>
 
-	<p>	
-	사용자명:&nbsp;<input type = "text" id = "userName" value = "0x249cc36a90d7b4f3819771caac532a61dd6429d5">&nbsp;
-	패스워드:&nbsp;<input type = "text" id = "password" value = "testuser2">&nbsp;
-	<input type = "button" value = "login" onclick = "login();" />
-	
+    <p>
+        사용자명:&nbsp;<input type="text" id="userName" value="0x249cc36a90d7b4f3819771caac532a61dd6429d5">&nbsp; 패스워드:&nbsp;
+        <input type="text" id="password" value="testuser2">&nbsp;
+        <input type="button" value="login" onclick="login();" />
 
-	</p>
-	<table id = "list" border ="1">
-		<tr>
-				<th></th>
-				<th>name</th>
-				<th>number of counter</th>
-		</tr>
-	</table>
-	<br />
-	<input type = "button" value = "countUp" onclick = "countUp();"/>
-	<br />
-	<input type = "button" value = "refresh" onclick = "refresh();"/>
 
-		
+    </p>
+    <table id="list" border="1">
+        <tr>
+            <th></th>
+            <th>name</th>
+            <th>number of counter</th>
+        </tr>
+    </table>
+    <br />
+    <input type="button" value="countUp" onclick="countUp();" />
+    <br />
+    <input type="button" value="refresh" onclick="refresh();" />
+
+
 </body>
+
 </html>
-
-
-
-
-
