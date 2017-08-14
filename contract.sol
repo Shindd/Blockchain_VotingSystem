@@ -3,15 +3,15 @@ contract BallotMaster{
     mapping(address => Ballot) private ballots;
     address[] private addressList;
     
-    function addCounter(bytes32 name)
+    function addBallot(bytes32 name)
     {
         Ballot b = new Ballot(name);
         addressList.push(address(b));
         ballots[address(b)] = b;
     }
-    function getCounterAddressList() constant returns
-    (address[] counterAddressList){
-        counterAddressList = addressList;
+    function getBallotrAddressList() constant returns
+    (address[] ballotAddressList){
+        ballotAddressList = addressList;
     }
 }
 /// @title 투표 및 위임
