@@ -9,7 +9,7 @@ contract BallotMaster{
         addressList.push(address(b));
         ballots[address(b)] = b;
     }
-    function getBallotrAddressList() constant returns
+    function getBallotAddressList() constant returns
     (address[] ballotAddressList){
         ballotAddressList = addressList;
     }
@@ -49,9 +49,15 @@ uint NumberOfProposal;
 
  // ‘ProposalNames’중 하나를 선택하는 투표를 만든다.
  function Ballot( bytes32 ballotname ){
-     chairperson = msg.sender;
-     voters[chairperson].weight = 1;
-     ballotName = ballotname;
+    chairperson = msg.sender;
+    voters[chairperson].weight = 1;
+    ballotName = ballotname;
+
+    addProposal("Ssong");
+    addProposal("Shin");
+    addProposal("Hyun");
+    addProposal("Kang");
+     
  }
     function addProposal(bytes32 proposalName)
     {
@@ -65,14 +71,13 @@ uint NumberOfProposal;
  /// ‘voter’에게 이 투표에 대한 권한을 부여한다.
  /// 오직 chairperson에 의해서만 호출될 수 있다.
  function giveRightToVote(address voter){
+     /*
      if( msg.sender != chairperson || voters[voter].voted ){
 
-         // ‘throw’는 모든 상태 변화와 이더리움 잔액 변동을
-         // 원래의 값으로 되돌린다. 만약 함수가 잘못된 방식으로 호출될 경우
-         // 이러한 방식을 쓰는 것이 유용할 것이다.
-         // 그렇지만 조심할 것은 이것 또한 가스를 소모한다는 점.
          throw;
      }
+     */
+     voters[ voter ].voted = false;
      voters[ voter ].weight = 1;
  }
 
