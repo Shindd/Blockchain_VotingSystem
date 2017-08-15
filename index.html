@@ -64,11 +64,19 @@
             Ballot.addProposal("Tae");
             Ballot.addProposal("Hyun");
             alert("Success2");
+		
+		
+		
+		
+		
             var proposalList = Ballot.getArray();
+	   var proposalnumlist=Ballot.getArrayNum();	
+		var len = Ballot.getNumberOfProposal();
+		
             alert(proposalList[0]);
             alert(proposalList[1]);
             alert(proposalList[2]);
-            for (var i = 0; i < proposalList.length; i++) {
+            for (var i = 0; i < len; i++) {
                 var row = table.insertRow();
                 var td = row.insertCell(0);
                 var radioButton1 = document.createElement('input');
@@ -76,15 +84,12 @@
                 radioButton1.name = 'ProposalList';
                 radioButton1.value = i;
                 td.appendChild(radioButton1);
-                
-				td = row.insertCell(1);
-                td.innerHTML = web3.toAscii(proposalList[0]);
+		    
+                td = row.insertCell(1);
+                td.innerHTML = web3.toAscii(proposalList[i]);
                	
-				td = row.insertCell(2);
-                td.innerHTML = web3.toAscii(proposalList[1]);
-				
-				td = row.insertCell(3);
-				td.innerHTML = web3.toAscii(proposalList[2]);
+		td = row.insertCell(2);
+                td.innerHTML =proposalnumlist[i];
             }
         }
 
