@@ -23,14 +23,15 @@
     <link rel="stylesheet" href="css/bxslider.css">
     <link rel="stylesheet" href="css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
+    
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/bignumber.min.js"></script>
-    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/crypto-js.js"></script>
-    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/utf8.js"></script>
-    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/web3.min.js"></script>
-    <script>
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/bignumber.min.js"></script>
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/crypto-js.js"></script>
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/utf8.js"></script>   
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/web3.min.js"></script>
+  <script>
         var url = "http://127.0.0.1:8545"
-        var user_name = "0x249cc36a90d7b4f3819771caac532a61dd6429d5";
+        var user_name = "0x25bfa5c5c3ea5a6d23c5aa89f4dedd5c442a3824";
         var password = "testuser2";
         var web3 = new Web3();
         var provider = new web3.providers.HttpProvider(url);
@@ -41,8 +42,7 @@
         
         var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
         
-        var master = web3.eth.contract(masterABI).at("0xc823347da5fd9cdc29a09548b8d49629fa0c231e");
-
+        var master = web3.eth.contract(masterABI).at("0x997e250c84b3ea16e15eb49915585e6681d98456");
         var BallotAddressList = master.getBallotAddressList();
         
             function login() {
@@ -63,9 +63,7 @@
                 });
     
             }
-
         function sleep(num) { //[1/1000초]
-
             var now = new Date();
             var stop = now.getTime() + num;
             while (true) {
@@ -73,24 +71,22 @@
                 if (now.getTime() > stop) return;
             }
         }
-
         function init() {
              //  alert("Success55555555");
             web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
             //   alert("Success55555555");
             var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
             
-                        alert("Success55555555");
-           /* Ballot.addProposal("Ssong");
-            Ballot.addProposal("Shin");
-            Ballot.addProposal("Hyun");
-            Ballot.addProposal("Kang");*/
+            alert("Successdfsdfsdfsdfsdfsdfsfsdfssd");
+    alert(BallotAddressList[0]);
+            alert(user_name);
+            
             Ballot.giveRightToVote(user_name);
+            alert("@@@@@@@@@@@@@@@@@@@@@@");
             var proposalList = Ballot.getArray();
             
 //            sleep(5000);
             alert("Success2");
-
             alert(proposalList[0]);
             alert(proposalList[1]);
             /*
@@ -103,7 +99,6 @@
                 radioButton1.value = proposalList[i];
                 td.appendChild(radioButton1);
                 td = row.insertCell(1);
-
                 td.innerHTML = web3.toAscii(proposalList[0]);
                 //td = row.insertCell(2);
                 //td.innerHTML = Counter.getNumberOfCounter();
@@ -127,7 +122,6 @@
                 }
             }
         }
-
         function createJSONdata(method, params) {
             var JSONdata = {
                 "jsonrpc": "2.0",
@@ -136,7 +130,6 @@
             };
             return JSONdata;
         }
-
         function executeJsonRpc(url_exec, JSONdata, success, error) {
             $.ajax({
                 type: 'post',
@@ -162,15 +155,12 @@
             font-size: 100%;
             color: white;
         }
-
         input {
             color: black;
         }
-
         select {
             color: black;
         }
-
         button {
             width: 100px;
             height: 50px;
@@ -180,15 +170,13 @@
             border-radius: 10px;
             border: 0;
         }
-
         .table1 {
-            size: 90%;
+
+            size: 80%;
             border-width: 3px;
             border-color: white;
         }
-
         .table2 {}
-
         td,
         th {
             text-align: center;
@@ -209,10 +197,8 @@
     </section>
 
     <section class="navbar navbar-fixed-top custom-navbar" role="navigation">
-        <input type="button" value="login" onclick="login();" />
-        <input type="button" value="checkValue" onclick="checkValue();" />
+       
         <div class="container">
-
             <div class="navbar-header">
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="icon icon-bar"></span>
@@ -234,7 +220,7 @@
         </div>
     </section>
 
-    <br><br><br>
+    <br><br><br><br><br>
     <center>
         <table border=3px bordercolor="white">
             <tr>
@@ -265,6 +251,8 @@
                         </body>
                     </table><br>
                     <input type="submit" name="votingSubmit" onclick="return submitCheck(this);" />
+                     <input type="button" value="login" onclick="login();" />
+                       <input type="button" value="checkValue" onclick="checkValue();" />
                 </td>
         </table>
 
