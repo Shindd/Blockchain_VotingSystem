@@ -1,5 +1,5 @@
 function OnlyOneCheck(checkBox) {
-    var obj = document.getElementsByName("checkbox1");
+    var obj = document.getElementsByName("voting");
     for (var i = 0; i < obj.length; i++) {
         if (obj[i] != checkBox) {
             obj[i].checked = false;
@@ -9,7 +9,7 @@ function OnlyOneCheck(checkBox) {
 
 function submitCheck(submit) {
 
-    var obj = document.getElementsByName("checkbox1");
+    var obj = document.getElementsByName("voting");
     var cnt = 0;
     for (var i = 0; i < obj.length; i++) {
         if (obj[i].checked == true)
@@ -22,9 +22,12 @@ function submitCheck(submit) {
 
         var chk = confirm("투표하시겠습니까?");
 
-        if (chk)
+        if (chk) {
+            countUp();
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 }
