@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>BVote</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/et-line-font.css">
+    <link rel="stylesheet" href="css/nivo-lightbox.css">
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/bignumber.min.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/crypto-js.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/utf8.js"></script>
+    <script type="text/javascript" src="/home/lth/다운로드/javascript/js/web3.min.js"></script>
+    <script>
+        var url = "http://127.0.0.1:8545"
+        var user_name = "0x249cc36a90d7b4f3819771caac532a61dd6429d5";
+        var password = "testuser2";
+        var web3 = new Web3();
+        var provider = new web3.providers.HttpProvider(url);
+        web3.setProvider(provider);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getproposalsCount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        
+        var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
+        
+        var master = web3.eth.contract(masterABI).at("0x4258ee44b42aaadcfd4aeaf0cc2d71484717ac8d");
+
+        var BallotAddressList = master.getBallotAddressList();
+        
+        function login() {
+            var JSONdata = createJSONdata("personal_unlockAccount", [user_name, password, 30]);
+            executeJsonRpc(url, JSONdata, function success(data) {
+                if (data.error == null) {
+                    alert("success");
+                    console.log("login success!");
+                }
+                else {
+                    alert("error");
+                    console.log("login error");
+                }
+
+                init();
+            }, function error(data) {
+                console.log("login error");
+            });
+
+        }
+
+        function sleep(num) { //[1/1000초]
+
+            var now = new Date();
+            var stop = now.getTime() + num;
+            while (true) {
+                now = new Date();
+                if (now.getTime() > stop) return;
+            }
+        }
+
+        function init() {
+            web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            Ballot.addProposal("Ssong");
+            Ballot.addProposal("Shin");
+            Ballot.addProposal("Hyun");
+            Ballot.addProposal("Kang");
+            Ballot.giveRightToVote(user_name);
+            var proposalList = Ballot.getArray();
+            
+            sleep(5000);
+            alert("Success2");
+
+            alert(proposalList[0]);
+            alert(proposalList[1]);
+            /*
+            for (var i = 0; i < proposalList.length; i++) {
+                var row = table.insertRow();
+                var td = row.insertCell(0);
+                var radioButton1 = document.createElecheccdment('input');
+                radioButton1.type = 'radio';
+                radioButton1.name = 'ProposalList';
+                radioButton1.value = proposalList[i];
+                td.appendChild(radioButton1);
+                td = row.insertCell(1);
+
+                td.innerHTML = web3.toAscii(proposalList[0]);
+                //td = row.insertCell(2);
+                //td.innerHTML = Counter.getNumberOfCounter();
+            }
+            */
+        }
+        function checkValue()
+        {
+            web3.eth.defaultAccount = user_name;
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            var address = Ballot.winningProposals();
+            alert(address);
+        }
+        function countUp() {
+            alert("countUp()");
+            web3.eth.defaultAccount = user_name;
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            var proposalList = document.getElementsByName("voting");
+            for (var i = 0; i < 4; i++) {
+                if (proposalList[i].checked) {
+                    alert(proposalList[i].value);
+                    Ballot.vote(proposalList[i].value);
+                    break;
+                }
+            }
+        }
+
+        function createJSONdata(method, params) {
+            var JSONdata = {
+                "jsonrpc": "2.0",
+                "method": method,
+                "params": params
+            };
+            return JSONdata;
+        }
+
+        function executeJsonRpc(url_exec, JSONdata, success, error) {
+            $.ajax({
+                type: 'post',
+                url: url_exec,
+                data: JSON.stringify(JSONdata),
+                contentType: 'application/JSON',
+                dataType: 'JSON',
+                scriptCharset: 'utf-8',
+                success: function(data) {
+                    success(data);
+                },
+                error: function(data) {
+                    error(data);
+                }
+            });
+        }
+    </script>
+    <style>
+        body {
+            text-align: center;
+            background: black;
+            font-family: 'Raleway', sans-serif;
+            font-size: 100%;
+            color: white;
+        }
+
+        input {
+            color: black;
+        }
+
+        select {
+            color: black;
+        }
+
+        button {
+            width: 100px;
+            height: 50px;
+            background-color: #7AC5CD;
+            table-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 0;
+        }
+
+        .table1 {
+            size: 90%;
+            border-width: 3px;
+            border-color: white;
+        }
+
+        .table2 {}
+
+        td,
+        th {
+            text-align: center;
+            background-color: #000000;
+        }
+    </style>
+
+
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+    <section class="preloader">
+
+        <div class="sk-rotating-plane"></div>
+
+    </section>
+
+    <section class="navbar navbar-fixed-top custom-navbar" role="navigation">
+        <input type="button" value="login" onclick="login();" />
+        <input type="button" value="checkValue" onclick="checkValue();" />
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+			</button>
+                <a href="#home" class="smoothScroll navbar-brand">BVote</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#login" class="smoothScroll">LOG-IN</a></li>
+                    <li><a href="#temp" class="smoothScroll">PRESENT-CONDITION</a></li>
+                    <li><a href="#" class="smoothScroll">/</a></li>
+                    <li><a href="#voting_sys" class="smoothScroll">VOTING SYSTEM</a></li>
+                    <li><a href="#contact" class="smoothScroll">CONTACT US</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <br><br><br>
+    <center>
+        <table border=3px bordercolor="white">
+            <tr>
+                <td>Title : test <br><br>
+                    <table border=3px bordercolor="white" width="100" height="150">
+                        
+                        <body bottommargin="100">
+                            <tr>
+                                <td>1</td>
+                                <td>SSONG</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=0 /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Mr.Shin</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=1 /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Mr.Lee</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=2 /></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Ms.Kang</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=3 /></td>
+                            </tr>
+                        </body>
+                    </table><br>
+                    <input type="submit" name="votingSubmit" onclick="return submitCheck(this);" />
+                </td>
+        </table>
+
+        <!-- Javascript 
+================================================== -->
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/smoothscroll.js"></script>
+        <script src="js/nivo-lightbox.min.js"></script>
+        <script src="js/jquery.easing-1.3.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.parallax.js"></script>
+        <script src="js/wow.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script src="js/checkbox.js"></script>
+</body>
+
+</html>
