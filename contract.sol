@@ -71,12 +71,12 @@ uint NumberOfProposal;
  /// ‘voter’에게 이 투표에 대한 권한을 부여한다.
  /// 오직 chairperson에 의해서만 호출될 수 있다.
  function giveRightToVote(address voter){
-     /*
-     if( msg.sender != chairperson || voters[voter].voted ){
+     
+     if(voters[voter].voted ){
 
          throw;
      }
-     */
+     
      voters[ voter ].voted = false;
      voters[ voter ].weight = 1;
  }
