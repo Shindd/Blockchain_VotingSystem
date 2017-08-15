@@ -41,6 +41,12 @@ contract Ballot{
  Proposal [ ] public proposals;
 bytes32 ballotName;
 bytes32[10] bytesArray;
+uint[10] intArray;
+uint NumberOfProposal;
+
+
+
+
  // ‘ProposalNames’중 하나를 선택하는 투표를 만든다.
  function Ballot( bytes32 ballotname ){
      chairperson = msg.sender;
@@ -53,6 +59,8 @@ bytes32[10] bytesArray;
              name : proposalName,
              voteCount : 0
          }));
+         NumberOfProposal++;
+         
     }
  /// ‘voter’에게 이 투표에 대한 권한을 부여한다.
  /// 오직 chairperson에 의해서만 호출될 수 있다.
@@ -91,7 +99,19 @@ function getArray() constant returns (bytes32[10])
         return bytesArray;
     }
 
-
+ function getNumberOfProposal() constant returns (uint number)
+    {
+        number = NumberOfProposal;
+    }
+    
+    function getArrayNum() constant returns (uint[10])
+    {
+        for(uint i=0;i<proposals.length;i++){
+            intArray[i]=proposals[i].voteCount;
+        }
+        return intArray;
+    }
+    
  /// @dev 가장 많은 수를 득표한 안건을 선택한다.
  function winningProposals () constant returns (uint winningProposal) {
      uint winningVoteCount = 0;
