@@ -5,7 +5,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+ 
+ 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/bignumber.min.js"></script>
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/crypto-js.js"></script>
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/utf8.js"></script>   
+	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/web3.min.js"></script>
+	
+	
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
@@ -20,6 +28,36 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
 
     <script type="text/javascript">
+  
+    var url = "http://127.0.0.1:8545"
+        var user_name;
+        var len;
+        var web3 = new Web3();
+        var provider = new web3.providers.HttpProvider(url);
+        web3.setProvider(provider);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+         var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        
+        var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
+        
+         var master = web3.eth.contract(masterABI).at("0xb5ac32eb49bf55ffa598151d9435d02194943bac");
+     var BallotAddressList = master.getBallotAddressList();
+     
+      web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
+            var table = document.getElementById('list');
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+     
+     len = Ballot.getNumberOfProposal();
+    
+     var proposalList = Ballot.getArray();
+            var proposalnumlist=Ballot.getArrayNum();
+    
+    var total=0;
+    for(var i=0; i<len;i++){
+        total+=proposalnumlist[i];
+    }
+    total/=10000;
+    alert(web3.toAscii(proposalList[2]));
         window.onload = function() {
             var chart = new CanvasJS.Chart("chartContainer", {
                 title: {
@@ -34,17 +72,25 @@
                     startAngle: 0,
                     indexLabelFontColor: "dimgrey",
                     indexLabelLineColor: "darkgrey",
-                    toolTipContent: "{y} %",
+                    toolTipContent: "{y}",
 
                     dataPoints: [{
-                            y: 51.04,
-                            indexLabel: "Android {y}%"
+                            x:  proposalnumlist[0]/total,
+                            y: proposalnumlist[0],
+                            indexLabel: web3.toAscii(proposalList[0]) + "{y}" + "({x}%)"
                         }, {
-                            y: 48.86,
-                            indexLabel: "iOS {y}%"
-                        }
-
-                    ]
+                            x:  proposalnumlist[1]/total,
+                            y: proposalnumlist[1],
+                            indexLabel:web3.toAscii(proposalList[1]) + "{y}"+ "({x}%)"
+                        },{
+                               x:  proposalnumlist[2]/total,
+                            y: proposalnumlist[2],
+                            indexLabel:web3.toAscii(proposalList[2]) + "{y}" +" ({x}%)"
+                        },{
+                               x:  proposalnumlist[3]/total,
+                            y: proposalnumlist[3],
+                            indexLabel:web3.toAscii(proposalList[3]) + "{y}"+"({x}%)"
+                        }]
                 }]
             });
 
