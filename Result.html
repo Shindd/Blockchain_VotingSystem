@@ -6,13 +6,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
- 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/bignumber.min.js"></script>
-	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/crypto-js.js"></script>
-	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/utf8.js"></script>   
-	<script type="text/javascript" src="/home/ssong/bookblock/browser-solidity-gh-pages/js/web3.min.js"></script>
-	
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="./bignumber.min.js"></script>
+	<script type="text/javascript" src="./js/crypto-js.js"></script>
+	<script type="text/javascript" src="./utf8.js"></script>   
+	<script type="text/javascript" src="./web3.min.js"></script>
 	
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -28,11 +26,11 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
 
     <script type="text/javascript">
-  
+  /*
     var url = "http://127.0.0.1:8545"
         var user_name;
         var len;
-        var web3 = new Web3();
+        var web3 = new Web3();  `
         var provider = new web3.providers.HttpProvider(url);
         web3.setProvider(provider);
         web3.eth.defaultAccount = web3.eth.accounts[0];
@@ -57,7 +55,8 @@
         total+=proposalnumlist[i];
     }
     total/=10000;
-
+*/
+    
         window.onload = function() {
             var chart = new CanvasJS.Chart("chartContainer", {
                 title: {
@@ -72,29 +71,48 @@
                     startAngle: 0,
                     indexLabelFontColor: "dimgrey",
                     indexLabelLineColor: "darkgrey",
-                    toolTipContent: "{y}",
-
+                    toolTipContent: "{y}%",
                     dataPoints: [{
-                            x:  proposalnumlist[0]/total,
-                            y: proposalnumlist[0],
-                            indexLabel: web3.toAscii(proposalList[0]) + "{y}" + "({x}%)"
+                            // x:  proposalnumlist[0]/total,
+                            // y: proposalnumlist[0],
+                            y: 51,
+                            indexLabel: "Test1 {y}%"
+                            // indexLabel: web3.toAscii(proposalList[0]) + "{y}" + "({x}%)"
                         }, {
-                            x:  proposalnumlist[1]/total,
-                            y: proposalnumlist[1],
-                            indexLabel:web3.toAscii(proposalList[1]) + "{y}"+ "({x}%)"
+                            //x:  proposalnumlist[1]/total,
+                            //y: proposalnumlist[1],
+                            y: 40,
+                            indexLabel: "Test2 {y}%"
+                            // indexLabel:web3.toAscii(proposalList[1]) + "{y}"+ "({x}%)"
                         },{
-                               x:  proposalnumlist[2]/total,
-                            y: proposalnumlist[2],
-                            indexLabel:web3.toAscii(proposalList[2]) + "{y}" +" ({x}%)"
+                            // x:  proposalnumlist[2]/total,
+                            //y: proposalnumlist[2],
+                            y: 4,
+                            indexLabel: "Test3 {y}%"
+                            // indexLabel:web3.toAscii(proposalList[2]) + "{y}" +" ({x}%)"
                         },{
-                               x:  proposalnumlist[3]/total,
-                            y: proposalnumlist[3],
-                            indexLabel:web3.toAscii(proposalList[3]) + "{y}"+"({x}%)"
+                            //x:  proposalnumlist[3]/total,
+                            //y: proposalnumlist[3],
+                            y: 5,
+                            indexLabel: "Test4 {y}%"
+                            // indexLabel:web3.toAscii(proposalList[3]) + "{y}"+"({x}%)"
                         }]
                 }]
             });
-
+            for(var i = 0; web3.proposalList[i] != null; i++){
+                chart.dataPoints.push({ x: proposalnumlist[i] / total, y: proposalnumlist[i],
+                indexLabel: web3.toAscii(proposalList[i]) + "{y}" + "({x}%)"});
+            }
+            // chart.data.dataPoints.sort();
+                
             chart.render();
+
+            var winner = new Array(3);
+            for( var i= 0; i < 3; i++){
+                var temp = chart.dataPoints[i];
+                console.log(temp);
+                document.getElementById("winner"+i).innerHTML = (i+1) + "." + temp.indexLabel;
+            }
         }
     </script>
     <style>
@@ -104,6 +122,11 @@
             font-family: "railway";
             font-size: 50px;
             color: white;
+        }
+        p{
+            font-size: 50px;
+            font-family: "railway";
+            color:white;
         }
     </style>
     <script src="js/canvasjs.min.js"></script>
@@ -142,7 +165,10 @@
                 </div>
             </div>
             <div class="col-md-6" style="text-align: center">
-                <p>test</p>
+                <p>Result</p>
+                <p id="winner0"> test1</p>
+                <p id="winner1"> test2</p>
+                <p id="winner2"> test3</p>
             </div>
         </div>
     </section>
