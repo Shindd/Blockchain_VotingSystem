@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>COUNTER</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/bignumber.min.js"></script>
+	<script type="text/javascript" src="./js/crypto-js.js"></script>
+	<script type="text/javascript" src="./js/utf8.js"></script>   
+	<script type="text/javascript" src="./js/web3.min.js"></script>
+
+    <script>
+        var url = "http://127.0.0.1:8545"
+        var web3 = new Web3();
+        var provider = new web3.providers.HttpProvider(url);
+        web3.setProvider(provider);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        alert("aaaa");
+        var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        
+        var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
+        
+         var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
+     var BallotAddressList = master.getBallotAddressList();
+     var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+        alert("aaaa");
+        
+        
+        web3.eth.defaultAccount = "0x74a01aae0be2c372ea8edd5d261c827d71757eed";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(0);
+        
+        web3.eth.defaultAccount = "0xe6257b95075a455be776859f3f6ea6285b67bcb0";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(0);
+        
+        web3.eth.defaultAccount = "0x4b3674369bb96489f3d7dd519dfd30f9d647f1b8";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(0);
+        
+        web3.eth.defaultAccount = "0x58b588a10d526c01f53685b22a836cb0ead5f6b1";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(0)
+        
+        web3.eth.defaultAccount = "0x23fab83c043ae9e61f6b01b7f84aacd331fd65d9";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(1);
+        
+        web3.eth.defaultAccount = "0x6a0ff337c11b7224218e8854fc319f8b62d14011";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(1);
+        
+        web3.eth.defaultAccount = "0x9f3c9dbae0c8228dbaa795ade1331b78f839baee";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(2);
+        
+        web3.eth.defaultAccount = "0xee1fc550e7f1f9a59ca1d35b5d5d83e79d1ddaea";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(3);
+        
+        web3.eth.defaultAccount = "0x5845fda8efeb1278c51bc06751a6ecdc2e12eb18";
+        Ballot.giveRightToVote(web3.eth.defaultAccount);
+        Ballot.vote(3);
+        
+        
+        alert("aaaa");
+        
+    </script>
+
+</head>
+
+<body>
+
+
+</body>
+
+</html>
+
+

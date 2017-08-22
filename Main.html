@@ -1,67 +1,141 @@
 <!DOCTYPE html>
 <html>
-<title>SCSC</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="./style.css">
-<link rel="stylesheet" href="./style.js">
 
-<body class="w3-content" style="max-width:1200px">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/bignumber.min.js"></script>
+	<script type="text/javascript" src="./js/crypto-js.js"></script>
+	<script type="text/javascript" src="./js/utf8.js"></script>   
+	<script type="text/javascript" src="./js/web3.min.js"></script>
+    <script>
+   
+      //var user_name = "0x25bfa5c5c3ea5a6d23c5aa89f4dedd5c442a3824";
+      //var password = "testuser2";
+         var url = "http://127.0.0.1:8545"
+                
+            function login(user_name, password) {
 
-    <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
-        <div class="w3-container w3-display-container w3-padding-16">
-            <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-            <a href="index.html" class="w3-wide">
-                <h3><b>제대로 나알자</b></h3>
-            </a>
-        </div>
-        <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-            <a href="./Login.html" class="w3-bar-item w3-button">Login</a>
-            <a href="./List.html" class="w3-bar-item w3-button">Jeans</a>
-        </div>
+            //    alert("hihi1");
+                var JSONdata = createJSONdata("personal_unlockAccount", [user_name, password, 30]);
+           //     alert("hihi2");
+                executeJsonRpc(url, JSONdata, function success(data) {
+                    if (data.error == null) {
+                        alert("success");
+                        console.log("login success!");
+                        location.href='./Pre-condition.html';
+                        
+                    }
+                    else {
+                        alert("error");
+                        console.log("login error");
+                    }
+    
+                }, function error(data) {
+                    console.log("login error");
+                });
+    
+            }
+                function createJSONdata(method, params) {
+            var JSONdata = {
+                "jsonrpc": "2.0",
+                "method": method,
+                "params": params
+            };
+            return JSONdata;
+        }
+        function executeJsonRpc(url_exec, JSONdata, success, error) {
+            $.ajax({
+                type: 'post',
+                url: url_exec,
+                data: JSON.stringify(JSONdata),
+                contentType: 'application/JSON',
+                dataType: 'JSON',
+                scriptCharset: 'utf-8',
+                success: function(data) {
+                    success(data);
+                },
+                error: function(data) {
+                    error(data);
+                }
+            });
+        }
+        
+        function checkLogin(){
+    //   alert("ddd");
+            var getId = document.getElementById("userID").value; 
+            var getPwd = document.getElementById("userPassword").value; 
+      
+            login(getId, getPwd);
+        }
+        
+    </script>
+    <style>
+        @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+        body,
+        html {
+            height: 100%;
+            font-size: 30px;
+            font-family: 'Noto Sans KR';
+            margin: 0;
+        }
+        
+        .hero-image {
+            background-image: url("images/Block2.jpg");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .hero-text {
+            text-align: center;
+            position: absolute;
+            
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+        
+        .label,
+        input,
+        button {
+            font-size: 30px;
+        }
+        checkbox{
+            width: 15px;
+        }
+        img {
+            height: 100%;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
 
-    </nav>
+    <div class="hero-image">
+        <div class="hero-text">
+            <h1 style="font-size:150px">B Vote</h1>
 
-    <!-- Top menu on small screens -->
-    <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-        <div class="w3-bar-item w3-padding-24 w3-wide">제대로 나알자</div>
-        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    </header>
+            <div class="container">
+                <center>
+                    <label for="text">USER ID</label>
+                    <input type="text" placeholder="Enter ID" id="userID" required><br>
 
-    <!-- Overlay effect when opening sidebar on small screens -->
-    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main" style="margin-left:250px">
-
-        <!-- Push down content on small screens -->
-        <div class="w3-hide-large" style="margin-top:83px"></div>
-
-        <!-- Top header -->
-        <header class="w3-container w3-xlarge">
-
-            <p class="w3-right">
-                <i class="fa fa-shopping-cart w3-margin-right"></i>
-                <i class="fa fa-search"></i>
-            </p>
-        </header>
-
-        <!-- Image header -->
-        <div class="w3-display-container w3-container">
-            <img src="./Images/jeans.jpg" alt="Jeans" style="width:100%">
-            <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
-                <h1 class="w3-jumbo w3-hide-small">New arrivals</h1>
-                <h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>
-                <h1 class="w3-hide-small">COLLECTION 2016</h1>
-                <p><a href="Login.html" class="w3-button w3-black w3-padding-large w3-large">LOGIN</a></p>
+                    <label for="text">PASSWORD</label>
+                    <input type="password" placeholder="Enter Password" id="userPassword" required><br>
+                    <input type="checkbox" checked="checked"> Remember me</input>
+                      <input type="button" value="Log in" onclick="checkLogin();" />
+                    <br><br>
+                    <span class="psw">Forgot <a href="#">password?</a></span><br>
+                    <a href="./signUp.html"> If you don`t have an account...<a></p>
+                   
+                </center>
             </div>
-        </div>
 
+    </div>
 </body>
 
 </html>
