@@ -129,59 +129,57 @@
         </div>
     </section>
     <br><br><br>
-    <form action="/action_page.php">
-        <center>
-            <h2> Open Up </h2>
-            <table border=5px>
-                <tr>
-                    <td align="center" bgcolor=black>
-                        <p>Title </p>
-                    </td>
-                    <td><input type="text"></input>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" bgcolor=black>
-                        <p>Date </p>
-                    </td>
-                    <td>
-                        <p>Start:<input type="time" id="startTime">
-                        </p>
-                        <p>Finish:<input type="time" id="finishTime">
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" bgcolor=black>
-                        <p>Candidate
-                        </p>
-                    </td>
-                    <td>
-                        <input type="text" id="candidate" />
-                        <button id="addCdd" style="height:25px; width:100px" onclick="candiAdd()">Add</button>
-                        <button id="delCdd" style="height:25px; width:100px" onclick="candiDel()">Del</button>
-                        <ol id="candiList">
-                            <li>test</li>
-                        </ol>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center " bgcolor=black>
-                        <p>Do you argree with our regulations?
-                        </p>
-                    </td>
-                    <td>
-                        <input type="checkbox" id="agree " checked="checked " />
-                        <label for="agree"><p  >Yes</p> </label>
-                    </td>
-                </tr>
-            </table>
+    <center>
+        <h2> Open Up </h2>
+        <table border=5px>
+            <tr>
+                <td align="center" bgcolor=black>
+                    <p>Title </p>
+                </td>
+                <td><input type="text"></input>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" bgcolor=black>
+                    <p>Date </p>
+                </td>
+                <td>
+                    <p>Start:<input type="date" id="pickadate">
+                    </p>
+                    <p>Finish:<input type="date" id="pickadate">
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" bgcolor=black>
+                    <p>Candidate
+                    </p>
+                </td>
+                <td>
+                    <input type="text" id="candidate" />
+                    <button id="addCdd" style="height:25px; width:100px" onclick="candiAdd()">Add</button>
+                    <button id="delCdd" style="height:25px; width:100px" onclick="candiDel()">Del</button>
+                    <ol id="candiList">
+                        <li>test</li>
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <td align="center " bgcolor=black>
+                    <p>Do you argree with our regulations?
+                    </p>
+                </td>
+                <td>
+                    <input type="checkbox" id="agree " checked="checked " />
+                    <label for="agree"><p  >Yes</p> </label>
+                </td>
+            </tr>
+        </table>
 
-            <br>
-            <input type="submit" value="Submit"></input>
-            <input type="reset" value="Reset"> </input>
-        </center>
-    </form>
+        <br>
+        <input type="submit" value="Submit"></input>
+        <input type="reset" value="Reset"> </input>
+    </center>
     <!-- Javascript 
 ================================================== -->
     <script src="js/jquery.js "></script>
