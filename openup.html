@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>BVote</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/et-line-font.css">
+    <link rel="stylesheet" href="css/nivo-lightbox.css">
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/Table.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+    <script>
+        var ul = document.getElementById("candiList");
+        var li = document.createElement("candiList");
+
+        function pickDate() {
+            $("#pickadate").datepicker({});
+        }
+
+        function candiAdd() {
+            $("#candiList").append(document.getElementById("#candidate"));
+        }
+        var ul = document.getElementById("list");
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode("Element 4"));
+    </script>
+
+    <style>
+        body {
+            text-align: center;
+            background: black;
+            font-family: 'Raleway', sans-serif;
+            color: white;
+        }
+        
+        input {
+            color: black;
+        }
+        
+        li {
+            color: white;
+        }
+        
+        select {
+            color: black;
+        }
+        
+        button {
+            width: 100px;
+            height: 50px;
+            background-color: #7AC5CD;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 0;
+        }
+        
+        table {
+            width: 80%;
+            height: 80%;
+            border-width: 5px;
+            border-color: white;
+        }
+        
+        td,
+        th {
+            text-align: center;
+            background-color: #000000;
+        }
+        
+        img {
+            height: 100%;
+            width: 120px;
+        }
+    </style>
+
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+    <section class="preloader">
+
+        <div class="sk-rotating-plane"></div>
+
+    </section>
+
+    <section class="navbar navbar-fixed-top custom-navbar" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+				<span class="icon icon-bar"></span>
+			</button>
+                <a href="./Main.html" class="smoothScroll navbar-brand">BVote</a>
+                <img src="./images/neon.png"></img>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="./Main.html" class="smoothScroll">LOG-OUT</a></li>
+                    <li><a href="./Pre-condition.html" class="smoothScroll">PRESENT-CONDITION</a></li>
+                    <li><a href="#" class="smoothScroll">/</a></li>
+                    <li><a href="./Main.html/#voting_sys" class="smoothScroll">VOTING SYSTEM</a></li>
+                    <li><a href="./Main.html/#contact" class="smoothScroll">CONTACT US</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+    <br><br><br>
+
+    <center>
+        <h2> Open Up </h2>
+        <table border=5px>
+            <tr>
+                <td align="center" bgcolor=black>
+                    <p>Title </p>
+                </td>
+                <td><input type="text"></input>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" bgcolor=black>
+                    <p>Date </p>
+                </td>
+                <td>
+                    <p>Start:<input type="text" id="pickadate">
+                    </p>
+                    <p>Finish:<input type="text" id="pickadate">
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" bgcolor=black>
+                    <p>Candidate
+                    </p>
+                </td>
+                <td>
+                    <input type="text" id="candidate" />
+                    <button id="addCdd" style="height:25px; width:100px" onclick="candiAdd()">Add</button>
+                    <li id="candiList">
+                    </li>
+                </td>
+            </tr>
+            <tr>
+                <td align="center " bgcolor=black>
+                    <p>Do you argree with our regulations?
+                    </p>
+                </td>
+                <td>
+                    <input type="checkbox" id="agree " checked="checked " />
+                    <label for="agree"><p  >Yes</p> </label>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <input type="submit" value="Submit"></input>
+        <input type="reset" value="Reset"> </input>
+    </center>
+
+    <!-- Javascript 
+================================================== -->
+    <script src="js/jquery.js "></script>
+    <script src="js/bootstrap.min.js "></script>
+    <script src="js/smoothscroll.js "></script>
+    <script src="js/nivo-lightbox.min.js "></script>
+    <script src="js/jquery.easing-1.3.js "></script>
+    <script src="js/plugins.js "></script>
+    <script src="js/owl.carousel.min.js "></script>
+    <script src="js/jquery.parallax.js "></script>
+    <script src="js/wow.min.js "></script>
+    <script src="js/custom.js "></script>
+
+</body>
+
+</html>
