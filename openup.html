@@ -28,19 +28,20 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
     <script>
-        var ul = document.getElementById("candiList");
-        var li = document.createElement("candiList");
-
-        function pickDate() {
-            $("#pickadate").datepicker({});
-        }
-
-        function candiAdd() {
-            $("#candiList").append(document.getElementById("#candidate"));
-        }
-        var ul = document.getElementById("list");
-        var li = document.createElement("li");
-        li.appendChild(document.createTextNode("Element 4"));
+        $(document).ready(function() {
+            $("#addCdd").click(function() {
+                var name = $('#candidate').val();
+                $("#candiList").append("<li>" + name + "</li>");
+            });
+            $("#delCdd").click(function() {
+                var name = $('#candidate').val();
+                $("#candiList").remove("<li>" + name + "</li>");
+            });
+            /*
+                        $(function() {
+                            $('#pickadate').datepicker();
+                        });*/
+        });
     </script>
 
     <style>
@@ -128,57 +129,59 @@
         </div>
     </section>
     <br><br><br>
+    <form action="/action_page.php">
+        <center>
+            <h2> Open Up </h2>
+            <table border=5px>
+                <tr>
+                    <td align="center" bgcolor=black>
+                        <p>Title </p>
+                    </td>
+                    <td><input type="text"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" bgcolor=black>
+                        <p>Date </p>
+                    </td>
+                    <td>
+                        <p>Start:<input type="time" id="pickadate">
+                        </p>
+                        <p>Finish:<input type="time" id="pickadate">
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" bgcolor=black>
+                        <p>Candidate
+                        </p>
+                    </td>
+                    <td>
+                        <input type="text" id="candidate" />
+                        <button id="addCdd" style="height:25px; width:100px" onclick="candiAdd()">Add</button>
+                        <button id="delCdd" style="height:25px; width:100px" onclick="candiDel()">Del</button>
+                        <ol id="candiList">
+                            <li>test</li>
+                        </ol>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center " bgcolor=black>
+                        <p>Do you argree with our regulations?
+                        </p>
+                    </td>
+                    <td>
+                        <input type="checkbox" id="agree " checked="checked " />
+                        <label for="agree"><p  >Yes</p> </label>
+                    </td>
+                </tr>
+            </table>
 
-    <center>
-        <h2> Open Up </h2>
-        <table border=5px>
-            <tr>
-                <td align="center" bgcolor=black>
-                    <p>Title </p>
-                </td>
-                <td><input type="text"></input>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" bgcolor=black>
-                    <p>Date </p>
-                </td>
-                <td>
-                    <p>Start:<input type="text" id="pickadate">
-                    </p>
-                    <p>Finish:<input type="text" id="pickadate">
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" bgcolor=black>
-                    <p>Candidate
-                    </p>
-                </td>
-                <td>
-                    <input type="text" id="candidate" />
-                    <button id="addCdd" style="height:25px; width:100px" onclick="candiAdd()">Add</button>
-                    <li id="candiList">
-                    </li>
-                </td>
-            </tr>
-            <tr>
-                <td align="center " bgcolor=black>
-                    <p>Do you argree with our regulations?
-                    </p>
-                </td>
-                <td>
-                    <input type="checkbox" id="agree " checked="checked " />
-                    <label for="agree"><p  >Yes</p> </label>
-                </td>
-            </tr>
-        </table>
-
-        <br>
-        <input type="submit" value="Submit"></input>
-        <input type="reset" value="Reset"> </input>
-    </center>
-
+            <br>
+            <input type="submit" value="Submit"></input>
+            <input type="reset" value="Reset"> </input>
+        </center>
+    </form>
     <!-- Javascript 
 ================================================== -->
     <script src="js/jquery.js "></script>
