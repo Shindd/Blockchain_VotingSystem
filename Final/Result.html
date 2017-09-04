@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+ 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/bignumber.min.js"></script>
+	<script type="text/javascript" src="./js/crypto-js.js"></script>
+	<script type="text/javascript" src="./js/utf8.js"></script>   
+	<script type="text/javascript" src="./js/web3.min.js"></script>
+	
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/et-line-font.css">
+    <link rel="stylesheet" href="css/nivo-lightbox.css">
+    <link rel="stylesheet" href="css/nivo_themes/default/default.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/bxslider.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript">
+  
+    var url = "http://127.0.0.1:8545"
+        var user_name="0x25bfa5c5c3ea5a6d23c5aa89f4dedd5c442a3824";
+        var len;
+        var web3 = new Web3();
+        var provider = new web3.providers.HttpProvider(url);
+        web3.setProvider(provider);
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        
+        var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
+        
+         var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
+     var BallotAddressList = master.getBallotAddressList();
+     
+      web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
+            var table = document.getElementById('list');
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+     
+     len = Ballot.getNumberOfProposal();
+    
+     var proposalList = Ballot.getArray();
+            var proposalnumlist=Ballot.getArrayNum();
+    
+    var total=0;
+    for(var i=0; i<len;i++){
+        total+=proposalnumlist[i];
+    }
+    total/=10000;
+
+        window.onload = function() {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: ""
+                },
+                animationEnabled: true,
+                theme: "theme2",
+                   data: [{
+                    type: "doughnut",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    startAngle: 0,
+                    indexLabelFontColor: "dimgrey",
+                    indexLabelLineColor: "darkgrey",
+                    toolTipContent: "{y}",
+                    
+               dataPoints: [{
+                            x:  proposalnumlist[0]/total,
+                            y: proposalnumlist[0],
+                            indexLabel: web3.toAscii(proposalList[0]) + "{y}" + "({x}%)"
+                        }, {
+                            x:  proposalnumlist[1]/total,
+                            y: proposalnumlist[1],
+                            indexLabel:web3.toAscii(proposalList[1]) + "{y}"+ "({x}%)"
+                        },{
+                               x:  proposalnumlist[2]/total,
+                            y: proposalnumlist[2],
+                            indexLabel:web3.toAscii(proposalList[2])  + "{y}" +" ({x}%)"
+                        },{
+                               x:  proposalnumlist[3]/total,
+                            y: proposalnumlist[3],
+                            indexLabel:web3.toAscii(proposalList[3]) + "{y}"+"({x}%)"
+                        }]
+                }]
+            });
+            chart.render();
+
+var winner = Ballot.winningProposals();
+            var winner_Name = web3.toAscii(proposalList[winner]);
+            var winner_Value = proposalnumlist[winner];
+            document.getElementById("Winner").innerHTML = winner_Name + " : " + winner_Value;
+        }
+    </script>
+    <style>
+        body {
+            height: 768px;
+            background-color: black;
+            font-family: "railway";
+            font-size: 50px;
+            color: white;
+        }
+        
+        p{
+            color: white;
+        }
+        img {
+            height: 100%;
+            width: 120px;
+        }
+    </style>
+    <script src="js/canvasjs.min.js"></script>
+    <title>BVote</title>
+</head>
+
+<body>
+
+    <section class="navbar navbar-fixed-top custom-navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                    </button>
+                <a href="./Main_View.html" class="smoothScroll navbar-brand">BVote</a>
+                <img src="./images/neon.png"></img>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="./Main.html" class="smoothScroll">LOG-OUT</a></li>
+                    <li><a href="./Pre-condition.html" class="smoothScroll">PRESENT-CONDITION</a></li>
+                    <li><a href="#" class="smoothScroll">/</a></li>
+                    <li><a href="./Main.html/#voting_sys" class="smoothScroll">VOTING SYSTEM</a></li>
+                    <li><a href="./Main.html/##contact" class="smoothScroll">CONTACT US</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section>
+        <br><br>
+        <div class="row">
+            <div class="col-md-6" style="text-align: center">
+                <p> Open Source Contest</p>
+                <div id="chartContainer" style="height: 100%; width: 100%;">
+                </div>
+            </div>
+            <div class="col-md-6" style="text-align: center">
+                <p class="res">Strong candidate</p> <br>
+                <p id="Winner">test</p>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
