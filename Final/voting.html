@@ -37,15 +37,14 @@
         var provider = new web3.providers.HttpProvider(url);
         web3.setProvider(provider);
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        
+        var contractkey;
+
          var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
         
         var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
         
          var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
         var BallotAddressList = master.getBallotAddressList();
-        
-        init();
         
             function login() {
                 
@@ -78,9 +77,13 @@
         }
         function init() {
           //  alert("init()");
+            contractkey = location.href.substr(
+                   location.href.lastIndexOf('=') + 1
+                ); // contractkey가 장의 해쉬값
+
             web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
             var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
-        
+            
             
             Ballot.giveRightToVote(user_name);
      
@@ -143,6 +146,10 @@
                     error(data);
                 }
             });
+        }
+
+        window.onload = function(){
+            init();
         }
     </script>
     <style>
