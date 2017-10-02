@@ -39,11 +39,11 @@
         web3.eth.defaultAccount = web3.eth.accounts[0];
         var contractkey;
 
-         var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
         
         var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
         
-         var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
+        var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
         var BallotAddressList = master.getBallotAddressList();
         
             function login() {
@@ -53,8 +53,6 @@
                     if (data.error == null) {
                         alert("success");
                         console.log("login success!");
-        
-                        
                     }
                     else {
                         alert("error");
@@ -80,15 +78,32 @@
             contractkey = location.href.substr(
                    location.href.lastIndexOf('=') + 1
                 ); // contractkey가 장의 해쉬값
+            document.getElementById("title").innerHTML = "TITLE NAME";
+             // 여기에 투표 장의 이름 넣으면됨
 
             web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
             var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
             
-            
             Ballot.giveRightToVote(user_name);
      
             var proposalList = Ballot.getArray();
-            
+            var testList=["1","abc", "edf"];
+            var table = document.getElementById("proposals");
+
+            for(var i = 0; i < testList.length; i++){
+                var row = table.insertRow(-1);
+                
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+
+                var checkcom = "<td><input type=\"checkbox\" name=\"voting\" onclick=\"OnlyOneCheck(this)\" value="+i+"/></td>";
+
+                cell1.innerHTML = i + 1;
+                cell2.innerHTML = "PROPOSAL NAME"; // 후보자 이름
+                cell3.innerHTML = checkcom;            
+            }
+
             /*
             for (var i = 0; i < proposalList.length; i++) {
                 var row = table.insertRow();
@@ -219,20 +234,17 @@
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="icon icon-bar"></span>
-				<span class="icon icon-bar"></span>
-				<span class="icon icon-bar"></span>
-			</button>
-                <a href="#home" class="smoothScroll navbar-brand">BVote</a>
-                <img src="./images/neon.png"></img>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+			    </button>
+                <a href="./Main_View.html" class="smoothScroll navbar-brand">BVote</a>
             </div>
+            
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="./Main.html" class="smoothScroll">LOG-OUT</a></li>
-                    <li><a href="./Pre-condition.html" class="smoothScroll">PRESENT-CONDITION</a></li>
-                    <li><a href="#" class="smoothScroll">/</a></li>
-                    <li><a href="./Main.html/#voting_sys" class="smoothScroll">VOTING SYSTEM</a></li>
-                    <li><a href="./Main.html/##contact" class="smoothScroll">CONTACT US</a></li>
+                    <li><a href="./Pre-condition.html" class="smoothScroll">VOTE</a></li>
+                    <li><a href="./openup.html" class="smoothScroll">OPEN UP</a></li>
                 </ul>
             </div>
 
@@ -243,8 +255,8 @@
     <center>
         <table border=3px bordercolor="white" width="100" height="150">
             <tr>
-                <td>Title : Open Source Contest <br><br>
-                    <center><table border=3px bordercolor="white" width="50" height="50">
+                <td><p id="title">No Title</p><br><br>
+                    <center><table border=3px bordercolor="white" width="50" height="50" id="proposals">
                         <body bottommargin="100">
                             <tr>
                                 <td>1</td>

@@ -47,24 +47,25 @@
         var TestList = ["1","1","1"];
 
         function init(){
-            var buttoncom = "<button onclick=\"location.href='./voting.html'\"><span>Go!</span></button>"
+            var table = document.getElementById("ballotlist");
             for( var i = 0; i < TestList.length; i++){
-                alert(i);
-                var table = document.getElementById("ballotlist");
                 var row = table.insertRow(-1);
+                var hashvalue = 0; // 투표 장에 대한 해쉬값 넣으면 됨
+                var hash = "key=" + hashvalue; 
+                var buttoncom = "<button onclick=\"location.href='./voting.html?" + hash + "'\"><span>Go!</span></button>"
+            
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
 
                 cell1.innerHTML = TestList[i];
-                cell2.innerHTML = "Test";
-                cell3.innerHTML = buttoncom;
+                cell2.innerHTML = buttoncom;
             }
         }
 
         window.onload = function(){
             init();
         }
+
     </script>
     <style>
         body {
@@ -124,56 +125,36 @@
 
             <div class="navbar-header">
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="icon icon-bar"></span>
-				<span class="icon icon-bar"></span>
-				<span class="icon icon-bar"></span>
-			</button>
-                <a href="./Main.html" class="smoothScroll navbar-brand">BVote</a>
-                <img src="./images/neon.png"></img>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+			    </button>
+                <a href="./Main_View.html" class="smoothScroll navbar-brand">BVote</a>
             </div>
+            
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="./Main.html" class="smoothScroll">LOG-OUT</a></li>
-                    <li><a href="./Pre-condition.html" class="smoothScroll">PRESENT-CONDITION</a></li>
-                    <li><a href="#" class="smoothScroll">/</a></li>
-                    <li><a href="./Main.html/#voting_sys" class="smoothScroll">VOTING SYSTEM</a></li>
-                    <li><a href="./Main.html/##contact" class="smoothScroll">CONTACT US</a></li>
+                    <li><a href="./Pre-condition.html" class="smoothScroll">VOTE</a></li>
+                    <li><a href="./openup.html" class="smoothScroll">OPEN UP</a></li>
                 </ul>
             </div>
 
         </div>
     </section>
 
-    <br><br><br>
+    <br><br><br><br><br><br><br>
     <center>
         <h2>Voting Places</h2>
         <table bordercolor="white" border=5px id="ballotlist" >
             <tr>
                 <td><p style="font-color:aliceblue">Title</p></td>
-                <td><p style="font-color:aliceblue">Term</p></td>
                 <td></td>
             </tr>
             <tr>
                 <td>Open Source Contest</td>
-                <td>17.08.25~</td>
                 <td>
                     <button onclick="location.href='./voting.html'"><span>Go!  </span></button>
                 </td>
-            </tr>
-            <tr>
-                <td>KNU IT College Election</td>
-                <td>17.08.05~</td>
-                <td><button>Go!</button></td>
-            </tr>
-            <tr>
-                <td>KNU Student Union Election</td>
-                <td>17.08.13~</td>
-                <td><button><span>Go! </span></button></td>
-            </tr>
-            <tr>
-                <td>US Presidential Election</td>
-                <td>17.08.21~</td>
-                <td><button><span>Go! </span></button></td>
             </tr>
         </table>
 
