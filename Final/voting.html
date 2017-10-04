@@ -23,66 +23,147 @@
     <link rel="stylesheet" href="css/bxslider.css">
     <link rel="stylesheet" href="css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
-
+    
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/bignumber.min.js"></script>
-    <script type="text/javascript" src="./js/crypto-js.js"></script>
-    <script type="text/javascript" src="./js/utf8.js"></script>
-    <script type="text/javascript" src="./js/web3.min.js"></script>
-    <script>
+	<script type="text/javascript" src="./js/bignumber.min.js"></script>
+	<script type="text/javascript" src="./js/crypto-js.js"></script>
+	<script type="text/javascript" src="./js/utf8.js"></script>   
+	<script type="text/javascript" src="./js/web3.min.js"></script>
+  <script>
         var url = "http://127.0.0.1:8545"
+        var user_name = "0x25bfa5c5c3ea5a6d23c5aa89f4dedd5c442a3824";
+        var password = "testuser2";
         var web3 = new Web3();
         var provider = new web3.providers.HttpProvider(url);
         web3.setProvider(provider);
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        var contractkey = location.href.substr(location.href.lastIndexOf('=') + 1); // contractkey가 장의 해쉬값;
+        var contractkey;
 
-        var ABI = [{ "constant": false, "inputs": [{ "name": "proposal", "type": "uint256" }], "name": "vote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "proposals", "outputs": [{ "name": "name", "type": "bytes32" }, { "name": "voteCount", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "proposalName", "type": "bytes32" }], "name": "addProposal", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "chairperson", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArrayNum", "outputs": [{ "name": "", "type": "uint256[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getBallotName", "outputs": [{ "name": "name", "type": "bytes32" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberOfProposal", "outputs": [{ "name": "number", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "voter", "type": "address" }], "name": "giveRightToVote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "address" }], "name": "voters", "outputs": [{ "name": "weight", "type": "uint256" }, { "name": "voted", "type": "bool" }, { "name": "delegate", "type": "address" }, { "name": "vote", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArray", "outputs": [{ "name": "", "type": "bytes32[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "winningProposals", "outputs": [{ "name": "winningProposal", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [{ "name": "ballotname", "type": "bytes32" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }];
-        var ballot = web3.eth.contract(ABI).at(contractkey);
-
+        var ABI = [{"constant":false,"inputs":[{"name":"proposal","type":"uint256"}],"name":"vote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"name","type":"bytes32"},{"name":"voteCount","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"proposalName","type":"bytes32"}],"name":"addProposal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"chairperson","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArrayNum","outputs":[{"name":"","type":"uint256[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getNumberOfProposal","outputs":[{"name":"number","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"voter","type":"address"}],"name":"giveRightToVote","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"voters","outputs":[{"name":"weight","type":"uint256"},{"name":"voted","type":"bool"},{"name":"delegate","type":"address"},{"name":"vote","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getArray","outputs":[{"name":"","type":"bytes32[10]"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winningProposals","outputs":[{"name":"winningProposal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"ballotname","type":"bytes32"}],"payable":false,"type":"constructor"}];
+        
+        var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
+        
+        var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
+        var BallotAddressList = master.getBallotAddressList();
+        
+            function login() {
+                
+                var JSONdata = createJSONdata("personal_unlockAccount", [user_name, password, 30]);
+                executeJsonRpc(url, JSONdata, function success(data) {
+                    if (data.error == null) {
+                        alert("success");
+                        console.log("login success!");
+                    }
+                    else {
+                        alert("error");
+                        console.log("login error");
+                    }
+    
+                    init();
+                }, function error(data) {
+                    console.log("login error");
+                });
+    
+            }
+        function sleep(num) { //[1/1000초]
+            var now = new Date();
+            var stop = now.getTime() + num;
+            while (true) {
+                now = new Date();
+                if (now.getTime() > stop) return;
+            }
+        }
         function init() {
+          //  alert("init()");
+            contractkey = location.href.substr(
+                   location.href.lastIndexOf('=') + 1
+                ); // contractkey가 장의 해쉬값
             document.getElementById("title").innerHTML = "TITLE NAME";
-            // 여기에 투표 장의 이름 넣으면됨
+             // 여기에 투표 장의 이름 넣으면됨
 
-            ballot.giveRightToVote(web3.eth.defaultAccount);
-
-            var proposalList = ballot.getArray();
+            web3.eth.defaultAccount = user_name; // defaultAccount = Hashvalue
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            
+            Ballot.giveRightToVote(user_name);
+     
+            var proposalList = Ballot.getArray();
+            var testList=["1","abc", "edf"];
             var table = document.getElementById("proposals");
 
-
-            for (var i = 0; i < ballot.getNumberOfProposal(); i++) {
+            for(var i = 0; i < testList.length; i++){
                 var row = table.insertRow(-1);
-
+                
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
 
-                var checkcom = "<td><input type=\"checkbox\" name=\"voting\" onclick=\"OnlyOneCheck(this)\" value=" + i + "/></td>";
+                var checkcom = "<td><input type=\"checkbox\" name=\"voting\" onclick=\"OnlyOneCheck(this)\" value="+i+"/></td>";
 
                 cell1.innerHTML = i + 1;
-                cell2.innerHTML = web3.toAscii(proposalList[i]); // 후보자 이름
-                cell3.innerHTML = checkcom;
+                cell2.innerHTML = "PROPOSAL NAME"; // 후보자 이름
+                cell3.innerHTML = checkcom;            
             }
-        }
 
-        function checkValue() {
-            var address = ballot.winningProposals();
+            /*
+            for (var i = 0; i < proposalList.length; i++) {
+                var row = table.insertRow();
+                var td = row.insertCell(0);
+                var radioButton1 = document.createElecheccdment('input');
+                radioButton1.type = 'radio';
+                radioButton1.name = 'ProposalList';
+                radioButton1.value = proposalList[i];
+                td.appendChild(radioButton1);
+                td = row.insertCell(1);
+                td.innerHTML = web3.toAscii(proposalList[0]);
+                //td = row.insertCell(2);
+                //td.innerHTML = Counter.getNumberOfCounter();
+            }
+            */
+        }
+        function checkValue()
+        {
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
+            var address = Ballot.winningProposals();
             alert(address);
         }
-
         function countUp() {
-            alert("1");
+          //  alert("countUp()");
+            var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
             var proposalList = document.getElementsByName("voting");
             for (var i = 0; i < 4; i++) {
                 if (proposalList[i].checked) {
-                    alert(proposalList[i].value);
-                    ballot.vote(proposalList[i].value);
-                    location.href = './Result.html';
+                  //  alert(proposalList[i].value);
+                    Ballot.vote(proposalList[i].value);
+                    location.href='./Result.html';
                 }
             }
         }
+        function createJSONdata(method, params) {
+            var JSONdata = {
+                "jsonrpc": "2.0",
+                "method": method,
+                "params": params
+            };
+            return JSONdata;
+        }
+        function executeJsonRpc(url_exec, JSONdata, success, error) {
+            $.ajax({
+                type: 'post',
+                url: url_exec,
+                data: JSON.stringify(JSONdata),
+                contentType: 'application/JSON',
+                dataType: 'JSON',
+                scriptCharset: 'utf-8',
+                success: function(data) {
+                    success(data);
+                },
+                error: function(data) {
+                    error(data);
+                }
+            });
+        }
 
-        window.onload = function() {
+        window.onload = function(){
             init();
         }
     </script>
@@ -94,15 +175,12 @@
             font-size: 100%;
             color: white;
         }
-
         input {
             color: black;
         }
-
         select {
             color: black;
         }
-
         button {
             width: 100px;
             height: 50px;
@@ -113,29 +191,26 @@
             border: 0;
         }
 
-        table {
+      table {
             width: 80%;
             height: 80%;
             border-width: 3px;
             border-color: white;
         }
 
-
+      
         .table1 {
 
             size: 80%;
             border-width: 3px;
             border-color: white;
         }
-
         .table2 {}
-
         td,
         th {
             text-align: center;
             background-color: #000000;
         }
-
         img {
             height: 100%;
             width: 120px;
@@ -155,7 +230,7 @@
     </section>
 
     <section class="navbar navbar-fixed-top custom-navbar" role="navigation">
-
+       
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -165,7 +240,7 @@
 			    </button>
                 <a href="./Main_View.html" class="smoothScroll navbar-brand">BVote</a>
             </div>
-
+            
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="./Pre-condition.html" class="smoothScroll">VOTE</a></li>
@@ -180,16 +255,33 @@
     <center>
         <table border=3px bordercolor="white" width="100" height="150">
             <tr>
-                <td>
-                    <p id="title">No Title</p><br><br>
-                    <center>
-                        <table border=3px bordercolor="white" width="50" height="50" id="proposals">
-
-                            <body bottommargin="100">
-                            </body>
-                        </table><br>
-                        <input type="submit" name="votingSubmit" onclick="return submitCheck(this);" />
-                        <br>
+                <td><p id="title">No Title</p><br><br>
+                    <center><table border=3px bordercolor="white" width="50" height="50" id="proposals">
+                        <body bottommargin="100">
+                            <tr>
+                                <td>1</td>
+                                <td>보트타자</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=0 /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>감튀감튀</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=1 /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>터틀넥</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=2 /></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>사람아님</td>
+                                <td><input type="checkbox" name="voting" onclick="OnlyOneCheck(this)" value=3 /></td>
+                            </tr>
+                        </body>
+                    </table><br>
+                    <input type="submit" name="votingSubmit" onclick="return submitCheck(this);" />
+                    <br>
                 </td>
         </table>
 
