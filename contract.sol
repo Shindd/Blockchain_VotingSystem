@@ -1,13 +1,10 @@
 pragma solidity ^0.4.11;
 contract BallotMaster{
-    mapping(address => Ballot) private ballots;
     address[] private addressList;
     
-    function addBallot(bytes32 name)
+    function addBallot(address Ballot)
     {
-        Ballot b = new Ballot(name);
-        addressList.push(address(b));
-        ballots[address(b)] = b;
+        addressList.push(Ballot);
     }
     function getBallotAddressList() constant returns
     (address[] ballotAddressList){
@@ -52,11 +49,6 @@ uint NumberOfProposal;
     chairperson = msg.sender;
     voters[chairperson].weight = 1;
     ballotName = ballotname;
-
-    addProposal("Ssong");
-    addProposal("Shin");
-    addProposal("Hyun");
-    addProposal("Kang");
      
  }
     function addProposal(bytes32 proposalName)
@@ -108,7 +100,10 @@ function getArray() constant returns (bytes32[10])
     {
         number = NumberOfProposal;
     }
-    
+    function getBallotName() constant returns (bytes32 name)
+    {
+        name = ballotName;
+    }
     function getArrayNum() constant returns (uint[10])
     {
         for(uint i=0;i<proposals.length;i++){
