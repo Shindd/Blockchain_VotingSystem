@@ -35,30 +35,25 @@
         var provider = new web3.providers.HttpProvider(url);
         web3.setProvider(provider);
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        var contractkey = location.href.substr(location.href.lastIndexOf('=') + 1); // contractkey가 장의 해쉬값;
+        var contractkey = location.href.substr(location.href.lastIndexOf('?') + 1); // contractkey가 장의 해쉬값;
 
         var ABI = [{ "constant": false, "inputs": [{ "name": "proposal", "type": "uint256" }], "name": "vote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "proposals", "outputs": [{ "name": "name", "type": "bytes32" }, { "name": "voteCount", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "proposalName", "type": "bytes32" }], "name": "addProposal", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "chairperson", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArrayNum", "outputs": [{ "name": "", "type": "uint256[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getBallotName", "outputs": [{ "name": "name", "type": "bytes32" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberOfProposal", "outputs": [{ "name": "number", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "voter", "type": "address" }], "name": "giveRightToVote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "address" }], "name": "voters", "outputs": [{ "name": "weight", "type": "uint256" }, { "name": "voted", "type": "bool" }, { "name": "delegate", "type": "address" }, { "name": "vote", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArray", "outputs": [{ "name": "", "type": "bytes32[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "winningProposals", "outputs": [{ "name": "winningProposal", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [{ "name": "ballotname", "type": "bytes32" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }];
         var ballot = web3.eth.contract(ABI).at(contractkey);
 
         function init() {
-            document.getElementById("title").innerHTML = "TITLE NAME";
+            document.getElementById("title").innerHTML = web3.toAscii(ballot.getBallotName());
             // 여기에 투표 장의 이름 넣으면됨
-
-            ballot.giveRightToVote(web3.eth.defaultAccount);
-
             var proposalList = ballot.getArray();
             var table = document.getElementById("proposals");
 
 
             for (var i = 0; i < ballot.getNumberOfProposal(); i++) {
                 var row = table.insertRow(-1);
-
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
 
                 var checkcom = "<td><input type=\"checkbox\" name=\"voting\" onclick=\"OnlyOneCheck(this)\" value=" + i + "></td>";
-
                 cell1.innerHTML = i + 1;
                 cell2.innerHTML = web3.toAscii(proposalList[i]); // 후보자 이름
                 cell3.innerHTML = checkcom;
@@ -67,17 +62,16 @@
 
         function checkValue() {
             var address = ballot.winningProposals();
-            alert(address);
         }
 
         function countUp() {
-            alert("1");
+            ballot.giveRightToVote(web3.eth.defaultAccount);
             var proposalList = document.getElementsByName("voting");
             for (var i = 0; i < 4; i++) {
                 if (proposalList[i].checked) {
                     alert(proposalList[i].value);
                     ballot.vote(proposalList[i].value);
-                    location.href = './Result.html';
+                    location.href = './Result.html?'+ contractkey;
                 }
             }
         }
