@@ -51,6 +51,7 @@
             name = document.getElementById("candidate").value;
             if (name != '') {
                 proList.push(name);
+		document.getElementById("candidate").value = "";
             }
         }
 
@@ -60,7 +61,17 @@
         }
 
         function reset() {
-            d
+            alert(proList.length);
+
+	    for(var i=0; i<proList.length; i++);
+	    {
+		proList.pop();
+	    }
+	    $("#candiList").children().remove();
+
+	    document.getElementById("titlename").value = "";
+	    document.getElementById("candidate").value = "";
+
         }
 
         function createProposal() {
@@ -85,6 +96,9 @@
                         }
                     })
             }
+		alert("Submit Success!")
+		reset();
+
         }
     </script>
     <script>
