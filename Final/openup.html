@@ -38,6 +38,7 @@
         var provider = new web3.providers.HttpProvider(url);
         web3.setProvider(provider);
         web3.eth.defaultAccount = web3.eth.accounts[0];
+	var titlename;
         var name;
         var ballot;
         var proList = [];
@@ -49,9 +50,19 @@
         function add() {
             var list = document.getElementById("candiList");
             name = document.getElementById("candidate").value;
+	    titlename = document.getElementById("titlename").value;
+
+
             if (name != '') {
-                alert(name);
-                proList.push(name);
+
+		if( titlename == ''){
+			alert("Fill the title name!");
+		}
+		else{
+              	 	alert(name);
+               		proList.push(name);
+			document.getElementById("candidate").value = "";
+		}	
             }
         }
 
@@ -62,7 +73,10 @@
 
         function reset() {
             var temp = master.getBallotAddressList();
-            alert(temp.length);
+            alert(proList.length);
+
+
+	    alert(proList.length);
             // path = "./Pre-condition.html?" + BallotAddressList.length;
             // for (var i = 0; i < BallotAddressList.length; i++)
             // {
@@ -91,12 +105,14 @@
 
                 })
 
+		alert("Success!");
+
         }
     </script>
     <script>
         $(document).ready(function() {
             $("#addCdd").click(function() {
-                if (name != '')
+                if (name != '' && titlename != '')
                     $("#candiList").append("<li>" + name + "</li>");
             });
             $("#delCdd").click(function() {
@@ -231,3 +247,4 @@
 </body>
 
 </html>
+
