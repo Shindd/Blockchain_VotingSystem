@@ -39,7 +39,7 @@
         web3.eth.defaultAccount = web3.eth.accounts[0];
         var masterABI = [{ "constant": true, "inputs": [], "name": "getBallotAddressList", "outputs": [{ "name": "ballotAddressList", "type": "address[]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "Ballot", "type": "address" }], "name": "addBallot", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }];
 
-        var master = web3.eth.contract(masterABI).at("0x6ac28c763e3a61e475117befaab9cd39b5c167bd");
+        var master = web3.eth.contract(masterABI).at("0xc0dcb796b4a92e8415429c16d81b0a8dd5574d73");
         var ABI = [{ "constant": false, "inputs": [{ "name": "proposal", "type": "uint256" }], "name": "vote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "proposals", "outputs": [{ "name": "name", "type": "bytes32" }, { "name": "voteCount", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "proposalName", "type": "bytes32" }], "name": "addProposal", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "chairperson", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArrayNum", "outputs": [{ "name": "", "type": "uint256[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getBallotName", "outputs": [{ "name": "name", "type": "bytes32" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberOfProposal", "outputs": [{ "name": "number", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "voter", "type": "address" }], "name": "giveRightToVote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "address" }], "name": "voters", "outputs": [{ "name": "weight", "type": "uint256" }, { "name": "voted", "type": "bool" }, { "name": "delegate", "type": "address" }, { "name": "vote", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArray", "outputs": [{ "name": "", "type": "bytes32[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "winningProposals", "outputs": [{ "name": "winningProposal", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [{ "name": "ballotname", "type": "bytes32" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }];
 
         function init() {
@@ -53,7 +53,8 @@
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
 
-                cell1.innerHTML = ballot.getBallotName();
+// alert(web3.toAscii(ballot.getBallotName()));
+                cell1.innerHTML =web3.toAscii(ballot.getBallotName());
                 cell2.innerHTML = buttoncom;
             }
         }

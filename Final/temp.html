@@ -21,7 +21,7 @@
         
         var masterABI = [{"constant":true,"inputs":[],"name":"getBallotAddressList","outputs":[{"name":"ballotAddressList","type":"address[]"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"}],"name":"addBallot","outputs":[],"payable":false,"type":"function"}];
         
-         var master = web3.eth.contract(masterABI).at("0x65a54770286c9d54336f74d602e4c516b30c359a");
+         var master = web3.eth.contract(masterABI).at("0xc0dcb796b4a92e8415429c16d81b0a8dd5574d73");
      var BallotAddressList = master.getBallotAddressList();
      var Ballot = web3.eth.contract(ABI).at(BallotAddressList[0]);
         alert("aaaa");
