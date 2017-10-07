@@ -100,9 +100,10 @@ function getArray() constant returns (bytes32[10])
     {
         number = NumberOfProposal;
     }
-    function getBallotName() constant returns (bytes32 name)
+    function getBallotName() constant returns (bytes32 name )
     {
         name = ballotName;
+        return name;
     }
     function getArrayNum() constant returns (uint[10])
     {
