@@ -42,7 +42,7 @@
         var ballot;
         var proList = [];
         var masterABI = [{ "constant": true, "inputs": [], "name": "getBallotAddressList", "outputs": [{ "name": "ballotAddressList", "type": "address[]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "Ballot", "type": "address" }], "name": "addBallot", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }];
-        var master = web3.eth.contract(masterABI).at("0xc0dcb796b4a92e8415429c16d81b0a8dd5574d73");
+        var master = web3.eth.contract(masterABI).at("0x4c9baf3b4d0047e586efcd702da8ea81576501e0");
         var ABI = [{ "constant": false, "inputs": [{ "name": "proposal", "type": "uint256" }], "name": "vote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "proposals", "outputs": [{ "name": "name", "type": "bytes32" }, { "name": "voteCount", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "proposalName", "type": "bytes32" }], "name": "addProposal", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "chairperson", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArrayNum", "outputs": [{ "name": "", "type": "uint256[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getBallotName", "outputs": [{ "name": "name", "type": "bytes32" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumberOfProposal", "outputs": [{ "name": "number", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "voter", "type": "address" }], "name": "giveRightToVote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "address" }], "name": "voters", "outputs": [{ "name": "weight", "type": "uint256" }, { "name": "voted", "type": "bool" }, { "name": "delegate", "type": "address" }, { "name": "vote", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getArray", "outputs": [{ "name": "", "type": "bytes32[10]" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "winningProposals", "outputs": [{ "name": "winningProposal", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [{ "name": "ballotname", "type": "bytes32" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }];
 
 
@@ -51,7 +51,7 @@
             name = document.getElementById("candidate").value;
             if (name != '') {
                 proList.push(name);
-		document.getElementById("candidate").value = "";
+                document.getElementById("candidate").value = "";
             }
         }
 
@@ -61,16 +61,13 @@
         }
 
         function reset() {
-            alert(proList.length);
+            for (var i = 0; i < proList.length; i++); {
+                proList.pop();
+            }
+            $("#candiList").children().remove();
 
-	    for(var i=0; i<proList.length; i++);
-	    {
-		proList.pop();
-	    }
-	    $("#candiList").children().remove();
-
-	    document.getElementById("titlename").value = "";
-	    document.getElementById("candidate").value = "";
+            document.getElementById("titlename").value = "";
+            document.getElementById("candidate").value = "";
 
         }
 
@@ -96,8 +93,8 @@
                         }
                     })
             }
-		alert("Submit Success!")
-		reset();
+            alert("Submit Success!")
+            reset();
 
         }
     </script>
